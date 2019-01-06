@@ -1,0 +1,29 @@
+{
+  "name": "typescript-example",
+  "author": "Bruce yff",
+  "version": "v1.0.0",
+  "private": true,
+  "description": "some examples of typescript",
+  "keywords": [
+    "webpack",
+    "typescript",
+    "commitizen"
+  ],
+  "script": {
+    "start": "node start.js"
+  },
+  "engines": {
+    "node": ">=6.11.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lessYFF/typescript-example.git"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-latest-node": "^0.4.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "cz-conventional-changelog": "^2.1.0",
+    "webpack": "^4.28.3"
+  }
+}
