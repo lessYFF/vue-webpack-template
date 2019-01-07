@@ -1,9 +1,9 @@
 {
-  "name": "typescript-example",
+  "name": "commitizen-example",
   "author": "Bruce yff",
   "version": "v1.0.0",
   "private": true,
-  "description": "some examples of typescript",
+  "description": "some examples of commitizen",
   "keywords": [
     "webpack",
     "typescript",
