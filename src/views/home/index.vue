@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <img alt="Vue logo" src="@assets/images/logo.png">
-        <HelloWorld msg="Welcome to Your Vue.js App"/>
+        <HelloWorld msg="Vue.js App using webpack4"/>
     </div>
 </template>
 
@@ -12,7 +12,7 @@
         name: 'app',
         components: {
             HelloWorld,
-        },
+        }
     };
 </script>
 

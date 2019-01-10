@@ -1,12 +1,15 @@
 import path from 'path';
 import webpack from 'webpack';
+import nodemonPlugin from 'nodemon-webpack-plugin';
 import parallelUglifyPlugin from 'webpack-parallel-uglify-plugin';
 import htmlIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
 
+// 生产环境配置
 const prodConfig = {
-    mode: 'production',
-    devtool: 'none',
+    mode: 'production', // webpack4指定模式
+    devtool: 'none',    // 指定source map来增强调试过程
     plugins: [
+        new nodemonPlugin(), // 生产环境自动重启服务
         /*new webpack.DllReferencePlugin({
             manifest: require(path.join(__dirname, 'dll', 'vue.manifest.json'))
         }),
