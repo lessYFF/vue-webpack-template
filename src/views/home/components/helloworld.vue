@@ -1,6 +1,7 @@
 <template>
     <div class="hello">
         <h1>{{ msg }}</h1>
+        <div>现在北京时间 {{ date }}</div>
         <p>
             For a guide and recipes on how to configure / customize this project,<br>
             check out the
@@ -31,11 +32,22 @@
 </template>
 
 <script>
+    import utils from '@utils/index';
+
     export default {
         name: 'HelloWorld',
         props: {
             msg: String,
         },
+        data() {
+            return {
+                date: ''
+            }
+        },
+        created() {
+            const format = new utils.Format();
+            this.date = format.formatDate(0, 'YYYY-MM-DD');
+        }
     };
 </script>
 

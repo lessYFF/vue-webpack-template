@@ -61,9 +61,8 @@ const baseConfig = {
         rules: [
             {    // ts文件加载器
                 test: /\.(ts|tsx)$/,
-                use: 'ts-loader',
-                exclude: /node_modules/,
-                include: resolve('src'),
+                use: ['babel-loader', 'ts-loader'],
+                exclude: /node_modules/
             }, { // js文件加载器
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
