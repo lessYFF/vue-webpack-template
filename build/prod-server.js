@@ -1,7 +1,8 @@
+/***** webpack-dev-middleware 构建输出在内存 *****/
 import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import Config from '../config/webpack.config.js';
+import Config from '../config/index.js';
 
 const app = express();
 const complie = webpack(Config);

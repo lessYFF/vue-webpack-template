@@ -1,15 +1,21 @@
 import path from 'path';
 import webpack from 'webpack';
-import openBrowserPlugin from 'open-browser-webpack-plugin';
 
 // 开发环境配置
 const devConfig = {
     mode: 'development',  // webpack4指定模式
     devtool: 'cheap-module-eval-source-map', // 指定source map来增强调试过程
     plugins: [
-        new openBrowserPlugin(), // webpack-dev-server devServer.open=true 无效降级方案
         new webpack.HotModuleReplacementPlugin(),
     ],
+    module: {
+        rules: [
+            {   // css文件加载器
+                test: /\.css$/,
+                use: [ 'vue-style-loader', 'css-loader']
+            },
+        ]
+    },
     devServer: {
         port: 8080,
         host: 'localhost',

@@ -4,6 +4,7 @@ import happypackPlugin from 'happypack';
 import { VueLoaderPlugin } from 'vue-loader';
 import htmlWebpackPlugin from 'html-webpack-plugin';
 import cleanWebpackPlugin from 'clean-webpack-plugin';
+import openBrowserPlugin from 'open-browser-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 // 通用路径解析方法
@@ -16,10 +17,12 @@ const happyThreadPool = happypackPlugin.ThreadPool({ size: os.cpus().length });
 // 通用配置
 const baseConfig = {
     output: {  // 构建输出
+        publicPath: '/',
         path: resolve('../dist'),
         filename: 'js/[name].js',
     },
     resolve: { // 构建解析
+        mainFiles: [ 'index' ],               // 解析目录时默认使用文件
         modules: [ 'src', 'node_modules'],    // 解析模块搜索目录,优化模块查找路径
         extensions: [ '.vue', '.js', '.ts' ], // 自动解析确定的扩展,优化文件查找效率
         alias: {                              // 设置别名,优化文件查找效率
@@ -34,16 +37,17 @@ const baseConfig = {
         },
     },
     plugins: [  // 插件配置
-        new VueLoaderPlugin(),            // vue-loader最新配置
-        new cleanWebpackPlugin(['dist']), // 清除指定目录内容
-        new htmlWebpackPlugin({           // 指定模版或者生成html
+        new VueLoaderPlugin(),               // vue-loader最新配置
+        new openBrowserPlugin(),             // 开发环境devServer.open配置降级方案
+        new cleanWebpackPlugin(['dist/*']),  // 清除指定目录内容
+        new htmlWebpackPlugin({              // 指定模版或者生成html
             filename: 'index.html',
             template: 'index.html'
         }),
-        new BundleAnalyzerPlugin({ // 打包可视化分析
+        new BundleAnalyzerPlugin({           // 打包可视化分析
             analyzerMode: 'disabled'
         }),
-        new happypackPlugin({      // 构建多线程,基础参数配置
+        new happypackPlugin({                // 构建多线程,基础参数配置
             id: 'babel',
             loaders: ['babel-loader?cacheDirectory'],
             threadPool: happyThreadPool,
@@ -65,18 +69,15 @@ const baseConfig = {
                 exclude: /node_modules/,
                 use: 'happypack/loader?id=babel',
                 include: resolve('src'),
-            }, { // vue文件加载器
+            },{ // vue文件加载器
                 test: /\.vue$/,
                 use: 'vue-loader',
-            }, { // css文件加载器
-                test: /\.css$/,
-                use: [ 'vue-style-loader', 'css-loader']
             }, { // 图片加载器
                 test: /\.(png|jpe?g|gif|svg|mp3|mp4)(\?.*)?$/,
                 loader: 'url-loader',
                 query: {
                     limit: 10000,
-                    name: resolve('assets/images/[name].[hash:7].[ext]')
+                    name: resolve('@assets/images/[name].[hash:7].[ext]')
                 }
             },
         ]

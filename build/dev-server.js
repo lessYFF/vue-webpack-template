@@ -1,6 +1,7 @@
+/***** webpack-dev-server 构建输出在内存 *****/
 import webpack from 'webpack';
 import webpackDevServer from 'webpack-dev-server';
-import Config from '../config/webpack.config.js';
+import Config from '../config/index.js';
 
 // 指定入口才能热更新
 webpackDevServer.addDevServerEntrypoints(Config, Config.devServer);

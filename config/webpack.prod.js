@@ -1,15 +1,25 @@
 import path from 'path';
 import webpack from 'webpack';
 import nodemonPlugin from 'nodemon-webpack-plugin';
-import parallelUglifyPlugin from 'webpack-parallel-uglify-plugin';
+import copyWebpackPlugin from 'copy-webpack-plugin';
+import miniCssExtractPlugin from "mini-css-extract-plugin";
+import webpackParallelUglifyPlugin from 'webpack-parallel-uglify-plugin';
 import htmlIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
 
 // 生产环境配置
 const prodConfig = {
     mode: 'production', // webpack4指定模式
     devtool: 'none',    // 指定source map来增强调试过程
+    module: {
+        rules: [
+            {   // css文件加载器
+                test: /\.css$/,
+                use: [ miniCssExtractPlugin.loader, 'css-loader']
+            },
+        ]
+    },
     plugins: [
-        new nodemonPlugin(), // 生产环境自动重启服务
+        // new nodemonPlugin(), // 生产环境自动重启服务
         /*new webpack.DllReferencePlugin({
             manifest: require(path.join(__dirname, 'dll', 'vue.manifest.json'))
         }),
@@ -17,9 +27,18 @@ const prodConfig = {
             assets: ['/dll/vue.dll.js'],
             append: false
         }),*/
-        new parallelUglifyPlugin({
+        new miniCssExtractPlugin({          // 提取css文件
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        }),
+        new copyWebpackPlugin([{            // 打包输出静态资源
+            from: path.resolve(__dirname, '../src/assets'),
+            to: path.resolve(__dirname, '../dist/assets'),
+            toType: 'dir'
+        }]),
+        new webpackParallelUglifyPlugin({
             workerCount: 4, // 开启几个子进程去并发的执行压缩，默认是当前电脑的cpu数量减1
-            uglifyJS: {
+            uglifyES: {
                 output: {
                     beautify: false, // 不需要格式化
                     comments: true // 保留注释
